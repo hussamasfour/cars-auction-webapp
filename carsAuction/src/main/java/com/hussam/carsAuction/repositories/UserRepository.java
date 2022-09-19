@@ -2,7 +2,6 @@ package com.hussam.carsAuction.repositories;
 
 import com.hussam.carsAuction.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository

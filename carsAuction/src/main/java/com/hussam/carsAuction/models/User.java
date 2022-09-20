@@ -1,18 +1,20 @@
 package com.hussam.carsAuction.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
  * Pojo class for user entity
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "user")
 public class User {
@@ -35,14 +37,11 @@ public class User {
     private Long phone;
 
     private Address address;
-    @Override
-    public String toString() {
-        return "User{" +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", phone=" + phone +
-                '}';
-    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id"))
+    private Set<Role> role;
+
 }

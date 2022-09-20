@@ -29,14 +29,12 @@ public class User {
     @Email
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-
     @Column(name="password", nullable = false)
     private String password;
-
     @Column(nullable = false, length = 10)
     private Long phone;
 
-
+    private Address address;
     @Override
     public String toString() {
         return "User{" +

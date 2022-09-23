@@ -19,8 +19,8 @@ public class UserService implements UserServiceI {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
     /**
      * Method toget user from the database using id
      * @param user_id
@@ -68,7 +68,7 @@ public class UserService implements UserServiceI {
     @Override
     public boolean registerUser(User user){
         if(validateEmail(user.getEmail())) {
-            user.setPassword(encodePassword(user.getPassword()));
+//            user.setPassword(encodePassword(user.getPassword()));
              userRepository.save(user);
             return true;
         }
@@ -80,7 +80,7 @@ public class UserService implements UserServiceI {
      * @param password
      * @return encoded password
      */
-    private String encodePassword(String password){
-        return passwordEncoder.encode(password);
-    }
+//    private String encodePassword(String password){
+//        return passwordEncoder.encode(password);
+//    }
 }

@@ -36,7 +36,7 @@ public class User {
     private String password;
     @Column(nullable = false, length = 10)
     private Long phone;
-
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -47,4 +47,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Car> car;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Bid> bids;
+
 }

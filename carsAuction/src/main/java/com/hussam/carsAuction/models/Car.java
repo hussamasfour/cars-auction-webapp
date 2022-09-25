@@ -1,18 +1,21 @@
 package com.hussam.carsAuction.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.Positive;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
+@Table(name = "car")
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +38,14 @@ public class Car {
     @Column(nullable = false)
     private String imagesLink;
 
+    private Double highestBid;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date AuctionStart;
+    @Future
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date AuctionEnd;
+    @OneToMany(mappedBy = "car")
+    private Set<Bid> bids = new HashSet<>();
+    @ManyToOne
+    private User user;
 }

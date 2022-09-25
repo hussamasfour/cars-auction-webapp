@@ -13,9 +13,6 @@ public class CarService implements CarServiceI{
     @Autowired
     private CarRepository carRepository;
 
-    public CarService(CarRepository carRepository) {
-        this.carRepository = carRepository;
-    }
 
     @Override
     public Car getCarById(Long id) {

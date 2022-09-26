@@ -1,6 +1,6 @@
-package com.hussam.carsAuction.repositories;
+package com.hussam.carsAuction.repository;
 
-import com.hussam.carsAuction.models.Bid;
+import com.hussam.carsAuction.entity.Bid;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

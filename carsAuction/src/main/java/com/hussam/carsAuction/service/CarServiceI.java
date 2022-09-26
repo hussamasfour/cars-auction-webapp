@@ -1,6 +1,6 @@
-package com.hussam.carsAuction.services;
+package com.hussam.carsAuction.service;
 
-import com.hussam.carsAuction.models.Car;
+import com.hussam.carsAuction.entity.Car;
 
 public interface CarServiceI {
 

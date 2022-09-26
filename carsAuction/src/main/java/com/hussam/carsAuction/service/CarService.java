@@ -1,7 +1,7 @@
-package com.hussam.carsAuction.services;
+package com.hussam.carsAuction.service;
 
-import com.hussam.carsAuction.models.Car;
-import com.hussam.carsAuction.repositories.CarRepository;
+import com.hussam.carsAuction.entity.Car;
+import com.hussam.carsAuction.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

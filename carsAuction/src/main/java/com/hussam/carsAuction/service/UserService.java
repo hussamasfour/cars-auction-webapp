@@ -1,12 +1,20 @@
-package com.hussam.carsAuction.services;
+package com.hussam.carsAuction.service;
 
-import com.hussam.carsAuction.models.User;
-import com.hussam.carsAuction.repositories.UserRepository;
+import com.hussam.carsAuction.entity.Role;
+import com.hussam.carsAuction.entity.Type;
+import com.hussam.carsAuction.entity.User;
+import com.hussam.carsAuction.payload.request.SignUpRequest;
+import com.hussam.carsAuction.repository.RoleRepository;
+import com.hussam.carsAuction.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,11 +24,13 @@ import java.util.regex.Pattern;
  */
 @Service
 public class UserService implements UserServiceI {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    
     @Autowired
     private UserRepository userRepository;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleRepository roleRepository;
     /**
      * Method toget user from the database using id
      * @param user_id
@@ -66,21 +76,25 @@ public class UserService implements UserServiceI {
      * @return true if successes or false
      */
     @Override
-    public boolean registerUser(User user){
+    public User registerUser(SignUpRequest user){
+
         if(validateEmail(user.getEmail())) {
-//            user.setPassword(encodePassword(user.getPassword()));
-             userRepository.save(user);
-            return true;
+            Set<Role> roles = new HashSet<>();
+            Role role = roleRepository.findByType(Type.USER);
+            roles.add(role);
+
+            User newUser = new User();
+            newUser.setFirstName(user.getFirstName());
+            newUser.setLastName(user.getLastName());
+            newUser.setEmail(user.getEmail());
+            newUser.setPassword(user.getPassword());
+            newUser.setRole(roles);
+
+            return userRepository.save(newUser);
+
         }
-        return false;
+        return null;
     }
 
-    /**
-     * Method to encode password before saving into the database
-     * @param password
-     * @return encoded password
-     */
-//    private String encodePassword(String password){
-//        return passwordEncoder.encode(password);
-//    }
+
 }

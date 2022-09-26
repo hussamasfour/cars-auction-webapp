@@ -1,7 +1,7 @@
-package com.hussam.carsAuction.repositories;
+package com.hussam.carsAuction.repository;
 
-import com.hussam.carsAuction.models.Role;
-import com.hussam.carsAuction.models.Type;
+import com.hussam.carsAuction.entity.Role;
+import com.hussam.carsAuction.entity.Type;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

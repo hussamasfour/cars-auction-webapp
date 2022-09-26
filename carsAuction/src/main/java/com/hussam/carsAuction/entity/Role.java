@@ -1,4 +1,4 @@
-package com.hussam.carsAuction.models;
+package com.hussam.carsAuction.entity;
 
 import lombok.*;
 

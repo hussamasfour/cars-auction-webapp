@@ -1,10 +1,11 @@
-package com.hussam.carsAuction.models;
+package com.hussam.carsAuction.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 
@@ -34,9 +35,10 @@ public class User {
     private String email;
     @Column(name="password", nullable = false)
     private String password;
-    @Column(nullable = false, length = 10)
+    @Column(length = 10)
+
     private Long phone;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user" ,cascade = CascadeType.ALL )
     private Address address;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -46,9 +48,11 @@ public class User {
     private Set<Role> role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Car> car;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Set<Bid> bids;
 
 }

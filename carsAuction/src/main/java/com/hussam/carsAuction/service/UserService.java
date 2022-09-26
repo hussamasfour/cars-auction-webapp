@@ -3,6 +3,7 @@ package com.hussam.carsAuction.service;
 import com.hussam.carsAuction.entity.Role;
 import com.hussam.carsAuction.entity.Type;
 import com.hussam.carsAuction.entity.User;
+import com.hussam.carsAuction.exception.NotFoundException;
 import com.hussam.carsAuction.payload.request.SignUpRequest;
 import com.hussam.carsAuction.repository.RoleRepository;
 import com.hussam.carsAuction.repository.UserRepository;
@@ -15,8 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 
 /**
@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 @Service
 public class UserService implements UserServiceI {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-    
+
     @Autowired
     private UserRepository userRepository;
 
@@ -39,7 +39,7 @@ public class UserService implements UserServiceI {
     @Override
     public User getUserById(Long user_id){
         Optional<User> user = userRepository.findById(user_id);
-        return user.orElse(null);
+        return user.orElseThrow(()-> new NotFoundException("user with id: "+ user_id +" not found"));
     }
 
     /**
@@ -49,26 +49,10 @@ public class UserService implements UserServiceI {
      */
     @Override
     public User getUserByEmail(String email){
-        if(validateEmail(email)) {
-            User user = userRepository.findUserByEmail(email);
-            return user;
-        }
-        return null;
+        Optional<User> user = userRepository.findUserByEmail(email);
+        return user.orElseThrow(() -> new NotFoundException("User is not found with email " + email));
     }
 
-    /**
-     * method to validate if email is valid or not
-     * @param email
-     * @return true or false
-     */
-    public boolean validateEmail(String email){
-        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-
-        Pattern pattern = Pattern.compile(regexPattern);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
 
     /**
      * Method to register new user into the database
@@ -77,23 +61,19 @@ public class UserService implements UserServiceI {
      */
     @Override
     public User registerUser(SignUpRequest user){
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByType(Type.USER);
+        roles.add(role);
 
-        if(validateEmail(user.getEmail())) {
-            Set<Role> roles = new HashSet<>();
-            Role role = roleRepository.findByType(Type.USER);
-            roles.add(role);
+        User newUser = new User();
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(user.getPassword());
+        newUser.setRole(roles);
 
-            User newUser = new User();
-            newUser.setFirstName(user.getFirstName());
-            newUser.setLastName(user.getLastName());
-            newUser.setEmail(user.getEmail());
-            newUser.setPassword(user.getPassword());
-            newUser.setRole(roles);
+        return userRepository.save(newUser);
 
-            return userRepository.save(newUser);
-
-        }
-        return null;
     }
 
 

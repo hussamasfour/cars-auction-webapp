@@ -11,8 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -22,6 +26,7 @@ import java.util.Set;
 /**
  * class to provide implementation for user service interface
  */
+
 @Service
 public class UserService implements UserServiceI {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
@@ -61,19 +66,17 @@ public class UserService implements UserServiceI {
      */
     @Override
     public User registerUser(SignUpRequest user){
+
         Set<Role> roles = new HashSet<>();
         Role role = roleRepository.findByType(Type.USER);
         roles.add(role);
-
         User newUser = new User();
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
         newUser.setEmail(user.getEmail());
         newUser.setPassword(user.getPassword());
         newUser.setRole(roles);
-
         return userRepository.save(newUser);
-
     }
 
 

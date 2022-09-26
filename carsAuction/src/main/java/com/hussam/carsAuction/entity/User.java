@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -24,19 +25,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @NotNull
+    @NotBlank(message = "FirstName is required")
     @Column(name = "firstName", nullable = false, length = 30)
     private String firstName;
-    @NotNull
+    @NotBlank(message = "LastName is required")
     @Column(name = "lastName", nullable = false, length = 30)
     private String lastName;
-    @Email
+    @Email(regexp ="^[A-Za-z0-9+_.-]+@(.+)$", message = "Please enter a valid email!!")
     @Column(name = "email", unique = true, nullable = false)
     private String email;
     @Column(name="password", nullable = false)
+    @Size(min = 8, max = 30 ,message = "Password must be more than 8 characters")
     private String password;
     @Column(length = 10)
-
     private Long phone;
     @OneToOne(mappedBy = "user" ,cascade = CascadeType.ALL )
     private Address address;

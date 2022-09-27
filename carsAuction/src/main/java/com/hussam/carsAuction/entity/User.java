@@ -56,4 +56,6 @@ public class User {
     @ToString.Exclude
     private Set<Bid> bids;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private BankAccount bankAccount;
 }

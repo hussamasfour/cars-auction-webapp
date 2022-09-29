@@ -2,6 +2,9 @@ package com.hussam.carsAuction.service;
 
 import com.hussam.carsAuction.entity.Car;
 
+import java.text.ParseException;
+import java.util.List;
+
 public interface CarServiceI {
 
     /**
@@ -15,5 +18,11 @@ public interface CarServiceI {
      * method to add car to the auction
      * @param car
      */
-    void addCar(Car car);
+        void addCar(Car car);
+
+    /**
+     * method to list all active cars
+     */
+        List<Car> getAllCars() throws ParseException;
 }
+

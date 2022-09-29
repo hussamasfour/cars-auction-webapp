@@ -19,7 +19,7 @@ public class Bid {
     private Date bidDate;
 
     private Double amount;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private User user;
     @ManyToOne

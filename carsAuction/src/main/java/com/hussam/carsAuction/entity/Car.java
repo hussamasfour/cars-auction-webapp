@@ -1,9 +1,11 @@
 package com.hussam.carsAuction.entity;
 
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.util.Date;
 import java.util.HashSet;
@@ -22,30 +24,27 @@ public class Car {
     private Long id;
     @Column(nullable = false)
     private String make;
-    @Column(nullable = false, length = 5)
+    @Column(nullable = false)
     private String model;
     @Column(nullable = false, length = 4)
     private int year;
-    @Positive
     @Column(nullable = false)
     private int numberOfSeats;
+    @NotBlank(message = "VinNumber is required")
     @Column(nullable = false, unique = true,updatable = false)
     private String vinNumber;
     @Column(nullable = false)
     private String fuelType;
     @Column(nullable = false)
-    private String fuelCapacity;
+    private double fuelCapacity;
     @Column(nullable = false)
     private String imagesLink;
-
-    private Double highestBid;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date AuctionStart;
-    @Future
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date AuctionEnd;
+    @Temporal(TemporalType.DATE)
+    private Date auctionStart;
+    @Temporal(TemporalType.DATE)
+    private Date auctionEnd;
     @OneToMany(mappedBy = "car")
     private Set<Bid> bids = new HashSet<>();
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 }

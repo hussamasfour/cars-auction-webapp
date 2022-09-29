@@ -34,7 +34,7 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
     @Column(name="password", nullable = false)
-    @Size(min = 8, max = 30 ,message = "Password must be more than 8 characters")
+    @Size(min = 8 ,message = "Password must be more than 8 characters")
     private String password;
     @Column(length = 10)
     private Long phone;

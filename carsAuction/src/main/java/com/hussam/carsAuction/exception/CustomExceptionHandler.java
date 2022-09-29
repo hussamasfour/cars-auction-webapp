@@ -1,9 +1,9 @@
 package com.hussam.carsAuction.exception;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -42,6 +42,15 @@ public class CustomExceptionHandler  extends ResponseEntityExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),"Validation Error", details, webRequest.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, new HttpHeaders(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public final ResponseEntity<ExceptionResponse> handleBadCredentialsException (BadCredentialsException ex, WebRequest webRequest){
+        List<String> details  = new ArrayList<>();
+        details.add(ex.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),"Validation Error", details, webRequest.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
 }

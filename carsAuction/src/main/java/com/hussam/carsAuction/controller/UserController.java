@@ -3,8 +3,10 @@ package com.hussam.carsAuction.controller;
 import com.hussam.carsAuction.entity.User;
 import com.hussam.carsAuction.payload.request.LoginRequest;
 import com.hussam.carsAuction.payload.request.SignUpRequest;
+import com.hussam.carsAuction.payload.response.SignInResponse;
 import com.hussam.carsAuction.service.UserServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +29,9 @@ public class UserController {
 
     @PostMapping("/login")
     ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest){
-        return ResponseEntity.ok(userService.login(loginRequest));
+       SignInResponse signInResponse  =userService.login(loginRequest);
+
+        return new ResponseEntity<>(signInResponse, HttpStatus.OK) ;
     }
     @GetMapping("/user/{id}")
     ResponseEntity<?> getUserById(@PathVariable("id") Long id){

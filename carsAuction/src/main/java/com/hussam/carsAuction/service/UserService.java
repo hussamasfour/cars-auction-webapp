@@ -3,19 +3,29 @@ package com.hussam.carsAuction.service;
 import com.hussam.carsAuction.entity.Role;
 import com.hussam.carsAuction.entity.Type;
 import com.hussam.carsAuction.entity.User;
+import com.hussam.carsAuction.exception.ExceptionResponse;
 import com.hussam.carsAuction.exception.NotFoundException;
 import com.hussam.carsAuction.payload.request.LoginRequest;
 import com.hussam.carsAuction.payload.request.SignUpRequest;
+import com.hussam.carsAuction.payload.response.SignInResponse;
 import com.hussam.carsAuction.repository.RoleRepository;
 import com.hussam.carsAuction.repository.UserRepository;
+import com.hussam.carsAuction.security.userService.UserDetailsImp;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
+import java.util.stream.Collectors;
 
 
 /**
@@ -25,15 +35,19 @@ import java.util.Set;
 @Service
 public class UserService implements UserServiceI {
 
-    @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
     private final RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -66,7 +80,7 @@ public class UserService implements UserServiceI {
      */
     @Override
     public User registerUser(SignUpRequest user){
-
+        System.out.println(passwordEncoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
         Role role = roleRepository.findByType(Type.USER);
         roles.add(role);
@@ -74,14 +88,37 @@ public class UserService implements UserServiceI {
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
         newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
+        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         newUser.setRole(roles);
         return userRepository.save(newUser);
     }
 
+    /**
+     * Method provide the implementation for login user
+     * @param loginRequest
+     * @return details of authenticated user
+     */
     @Override
-    public User login(LoginRequest loginRequest) {
-        return null;
+    public SignInResponse login(LoginRequest loginRequest) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();
+
+            List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
+
+            SignInResponse signInResponse = new SignInResponse();
+            signInResponse.setId(userDetails.getId());;
+            signInResponse.setEmail(userDetails.getUsername());
+            signInResponse.setRoles(roles);
+
+            return signInResponse;
+
+            }catch (BadCredentialsException e){
+                throw new BadCredentialsException("Email AND/OR password are incorrect");
+            }
+
     }
 
 

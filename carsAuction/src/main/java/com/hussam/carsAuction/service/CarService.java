@@ -14,8 +14,12 @@ import java.util.Optional;
 @Service
 public class CarService implements CarServiceI{
 
+
+    private final CarRepository carRepository;
     @Autowired
-    private CarRepository carRepository;
+    public CarService(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
 
 
     @Override

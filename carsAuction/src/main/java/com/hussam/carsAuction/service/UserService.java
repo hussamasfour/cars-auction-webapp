@@ -4,19 +4,14 @@ import com.hussam.carsAuction.entity.Role;
 import com.hussam.carsAuction.entity.Type;
 import com.hussam.carsAuction.entity.User;
 import com.hussam.carsAuction.exception.NotFoundException;
+import com.hussam.carsAuction.payload.request.LoginRequest;
 import com.hussam.carsAuction.payload.request.SignUpRequest;
 import com.hussam.carsAuction.repository.RoleRepository;
 import com.hussam.carsAuction.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ConstraintViolationException;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -29,13 +24,18 @@ import java.util.Set;
 
 @Service
 public class UserService implements UserServiceI {
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
+
     /**
      * Method toget user from the database using id
      * @param user_id
@@ -77,6 +77,11 @@ public class UserService implements UserServiceI {
         newUser.setPassword(user.getPassword());
         newUser.setRole(roles);
         return userRepository.save(newUser);
+    }
+
+    @Override
+    public User login(LoginRequest loginRequest) {
+        return null;
     }
 
 

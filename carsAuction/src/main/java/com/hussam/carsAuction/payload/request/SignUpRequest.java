@@ -10,9 +10,6 @@ import javax.validation.constraints.Size;
 public class SignUpRequest {
     private String firstName;
     private String lastName;
-
     private String email;
-
-
     private String password;
 }

@@ -39,4 +39,11 @@ public class CarController {
         List<Car> carList = carService.getAllCars();
         return new ResponseEntity<>(carList, HttpStatus.OK);
     }
+
+    @GetMapping("/search-car")
+    public ResponseEntity<?> searchCars(@RequestParam("query") String query){
+        List<Car> cars = carService.searchCars(query);
+
+        return new ResponseEntity<>(cars, HttpStatus.OK);
+    }
 }

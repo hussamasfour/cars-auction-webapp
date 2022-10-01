@@ -38,4 +38,9 @@ public class CarService implements CarServiceI{
         Date date = new Date();
         return carRepository.findAllByAuctionEndGreaterThanEqual(date);
     }
+
+    @Override
+    public List<Car> searchCars(String query) {
+        return carRepository.searchCars(query);
+    }
 }

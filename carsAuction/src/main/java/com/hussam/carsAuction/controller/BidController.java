@@ -18,7 +18,5 @@ public class BidController {
     @PostMapping("/bid")
     public ResponseEntity<?> addBidToCar(@RequestParam("car_id") Long car_id, @RequestParam("user_id") Long user_id , @RequestParam("amount") double amount)  {
             return new ResponseEntity<>(bidService.addBid(car_id,user_id,amount), HttpStatus.CREATED);
-
-
     }
 }

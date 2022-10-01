@@ -24,5 +24,12 @@ public interface CarServiceI {
      * method to list all active cars
      */
         List<Car> getAllCars() throws ParseException;
+
+    /**
+     * Method to search for car
+     * @param query
+     * @return list of cars that matched the query
+     */
+    List<Car> searchCars(String query);
 }
 

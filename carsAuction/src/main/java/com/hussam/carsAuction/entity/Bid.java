@@ -1,16 +1,18 @@
 package com.hussam.carsAuction.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-@Entity
+@Entity(name = "bid")
 public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +23,9 @@ public class Bid {
     private Double amount;
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
+    @JsonIgnore
     private User user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Car car;
 }

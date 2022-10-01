@@ -53,4 +53,13 @@ public class CustomExceptionHandler  extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidBidException.class)
+    public final ResponseEntity<ExceptionResponse> handleInvalidBidException (InvalidBidException ex, WebRequest webRequest){
+        List<String> details  = new ArrayList<>();
+        details.add(ex.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),"Invalid bid", details, webRequest.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -4,9 +4,7 @@ import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@Entity
+@Entity(name = "car")
 @Table(name = "car")
 public class Car {
     @Id

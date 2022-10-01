@@ -22,7 +22,7 @@ public class BankAccount {
     @Column( unique = true)
     private Long accountNumber;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
 }

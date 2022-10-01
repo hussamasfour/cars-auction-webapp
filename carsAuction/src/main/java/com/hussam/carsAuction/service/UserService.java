@@ -100,7 +100,7 @@ public class UserService implements UserServiceI {
      */
     @Override
     public SignInResponse login(LoginRequest loginRequest) {
-        try {
+
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();
@@ -115,9 +115,7 @@ public class UserService implements UserServiceI {
 
             return signInResponse;
 
-            }catch (BadCredentialsException e){
-                throw new BadCredentialsException("Email AND/OR password are incorrect");
-            }
+
 
     }
 

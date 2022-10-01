@@ -3,7 +3,6 @@ package com.hussam.carsAuction.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -24,6 +23,6 @@ public class Address {
     @Column(nullable = false, length = 5)
 
     private String zipcode;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 }

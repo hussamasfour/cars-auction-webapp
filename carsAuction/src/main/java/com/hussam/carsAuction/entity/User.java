@@ -1,5 +1,6 @@
 package com.hussam.carsAuction.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,6 +36,7 @@ public class User {
     private String email;
     @Column(name="password", nullable = false)
     @Size(min = 8 ,message = "Password must be more than 8 characters")
+    @JsonIgnore
     private String password;
     @Column(length = 10)
     private Long phone;

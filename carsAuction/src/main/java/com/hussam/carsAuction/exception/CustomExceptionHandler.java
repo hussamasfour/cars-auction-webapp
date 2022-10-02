@@ -62,4 +62,13 @@ public class CustomExceptionHandler  extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ResourceAlreadyInUseException.class)
+    public final ResponseEntity<ExceptionResponse> handleInvalidBidException (ResourceAlreadyInUseException ex, WebRequest webRequest){
+        List<String> details  = new ArrayList<>();
+        details.add(ex.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),"Resource Already in use", details, webRequest.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
 }

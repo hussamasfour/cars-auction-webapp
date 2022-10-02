@@ -5,6 +5,7 @@ import com.hussam.carsAuction.entity.Type;
 import com.hussam.carsAuction.entity.User;
 import com.hussam.carsAuction.exception.ExceptionResponse;
 import com.hussam.carsAuction.exception.NotFoundException;
+import com.hussam.carsAuction.exception.ResourceAlreadyInUseException;
 import com.hussam.carsAuction.payload.request.LoginRequest;
 import com.hussam.carsAuction.payload.request.SignUpRequest;
 import com.hussam.carsAuction.payload.response.SignInResponse;
@@ -80,7 +81,10 @@ public class UserService implements UserServiceI {
      */
     @Override
     public User registerUser(SignUpRequest user){
-        System.out.println(passwordEncoder.encode(user.getPassword()));
+        String newUserEmail = user.getEmail();
+        if(emailAlreadyExist(newUserEmail)){
+            throw new ResourceAlreadyInUseException("Email", "address", newUserEmail);
+        }
         Set<Role> roles = new HashSet<>();
         Role role = roleRepository.findByType(Type.USER);
         roles.add(role);
@@ -114,10 +118,15 @@ public class UserService implements UserServiceI {
             signInResponse.setRoles(roles);
 
             return signInResponse;
-
-
-
     }
 
+    /**
+     * Check if the given email is already in use in the databse repository or not
+     * @param email
+     * @return true if email is exist else false
+     */
+    boolean emailAlreadyExist(String email){
+        return userRepository.existsByEmail(email);
+    }
 
 }

@@ -13,8 +13,11 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     List<Car> findAllByAuctionEndGreaterThanEqual(Date date);
 
     @Query("SELECT c FROM car c WHERE " +
-            "c.make LIKE CONCAT('%' ,:query, '%') " +
+            "(c.make LIKE CONCAT('%' ,:query, '%') " +
             " OR c.model LIKE CONCAT('%', :query, '%')" +
-            " OR c.vinNumber LIKE :query")
-    List<Car> searchCars(String query);
+            " OR c.vinNumber = :query) AND auctionEnd> :date")
+    List<Car> searchCars(String query,Date date);
+
+    boolean existsByVinNumber(String vinNumber);
+
 }

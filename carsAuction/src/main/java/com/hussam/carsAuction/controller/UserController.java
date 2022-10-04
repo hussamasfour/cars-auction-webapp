@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -22,13 +24,13 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    ResponseEntity<?> registerUser(@RequestBody SignUpRequest signUpRequest) {
+    ResponseEntity<?> registerUser( @Valid @RequestBody SignUpRequest signUpRequest) {
 
        return ResponseEntity.ok(userService.registerUser(signUpRequest));
     }
 
     @PostMapping("/login")
-    ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest){
+    ResponseEntity<?> loginUser( @Valid @RequestBody LoginRequest loginRequest){
        SignInResponse signInResponse  =userService.login(loginRequest);
 
         return new ResponseEntity<>(signInResponse, HttpStatus.OK) ;

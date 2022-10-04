@@ -40,7 +40,8 @@ public class User {
     private String password;
     @Column(length = 10)
     private Long phone;
-    @OneToOne(mappedBy = "user" ,cascade = CascadeType.ALL )
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Address address;
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -1,5 +1,5 @@
 package com.hussam.carsAuction.entity;
 
 public enum Type {
-    ADMIN, USER;
+    ROLE_ADMIN, ROLE_USER;
 }

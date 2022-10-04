@@ -32,12 +32,12 @@ public class BidService implements BidServiceI{
         User user = userService.getUserById(user_id);
 
         if(new Date().compareTo(selected_car.getAuctionEnd()) >0){
-            throw new InvalidBidException("Error!! The auction for the selected car is ended!");
+            throw new InvalidBidException("The auction for the selected car is ended!");
         }
         Double highestBid = bidRepository.findHighestBid(car_id);
 
         if(highestBid !=null && amount <= highestBid){
-           throw new InvalidBidException("Error!! Your bid is not the highest bid");
+           throw new InvalidBidException("Your bid is not the highest bid");
        }
         Bid bid = new Bid();
         bid.setAmount(amount);

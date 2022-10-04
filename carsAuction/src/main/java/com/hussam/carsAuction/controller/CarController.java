@@ -1,10 +1,13 @@
 package com.hussam.carsAuction.controller;
 
 import com.hussam.carsAuction.entity.Car;
+import com.hussam.carsAuction.security.annotation.CurrentUser;
+import com.hussam.carsAuction.security.userService.UserDetailsImp;
 import com.hussam.carsAuction.service.CarServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -22,7 +25,8 @@ public class CarController {
     }
 
     @PostMapping("/car")
-    public ResponseEntity<?> addCar(@RequestBody Car car){
+    @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<?> addCar(@RequestBody Car car, @CurrentUser UserDetailsImp currentUser){
         carService.addCar(car);
         return new ResponseEntity<>("New car added to the auction", HttpStatus.CREATED);
     }

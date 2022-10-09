@@ -44,7 +44,7 @@ public class SecurityConfiguration {
 
         http.cors().and().csrf().disable().
                 authorizeRequests().antMatchers( "/api/signup","/api/login", "/actuator/**").permitAll()
-                .antMatchers("/api/car").hasAuthority("ADMIN")
+                .antMatchers("/api/car").hasRole("USER")
                 .anyRequest().authenticated();
 
         return http.build();

@@ -84,7 +84,7 @@ const Login = () => {
           <span className="text-danger">{loginError.password}</span>
         </div>
       </div>
-      <button type="submit" className="rounded">
+      <button type="submit" className="rounded customButton">
         LOGIN
       </button>
     </form>

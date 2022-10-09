@@ -57,6 +57,7 @@ const Register = () => {
     setRegisterError(inputValid(userInfo));
     setIsSubmitted(true);
   };
+
   return (
     <form id="form" onSubmit={handleSubmit}>
       <div className="title">
@@ -116,7 +117,7 @@ const Register = () => {
           <div className="text-danger">{registerError.password}</div>
         </div>
       </div>
-      <button type="submit" className="rounded">
+      <button type="submit" className="rounded customButton">
         Register
       </button>
     </form>

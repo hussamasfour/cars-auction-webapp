@@ -1,17 +1,38 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+
+import { Navigate, Route, Routes } from "react-router-dom";
+import AuthService from "../utils/authService";
 import "./App.css";
 import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Register from "./Register/Register";
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(undefined);
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
+
   return (
     <div className="container">
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/"
+          element={currentUser ? <Home /> : <Navigate replace to="/login" />}
+        />
+        />
+        <Route
+          path="/login"
+          element={currentUser ? <Navigate replace to="/" /> : <Login />}
+        ></Route>
+        <Route
+          path="/register"
+          element={currentUser ? <Navigate replace to="/" /> : <Register />}
+        />
       </Routes>
     </div>
   );

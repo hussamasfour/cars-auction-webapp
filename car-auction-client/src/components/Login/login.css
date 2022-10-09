@@ -51,7 +51,7 @@ input:focus {
 .input-control {
   margin-bottom: 30px;
 }
-button {
+.customButton {
   border: none;
   font-weight: 700;
   margin-top: 12px;
@@ -65,7 +65,7 @@ button {
   transition: 500ms;
   height: 54px;
 }
-button:hover {
+.customButton:hover {
   background-color: #00b712;
   color: white;
   transform: translateY(-3px);

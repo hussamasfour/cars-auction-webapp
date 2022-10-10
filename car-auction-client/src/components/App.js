@@ -18,7 +18,7 @@ function App() {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container main-app">
       <Routes>
         <Route
           path="/"

@@ -12,7 +12,7 @@ const NavBar = () => {
       <div className="container-fluid">
         <div className="navbar-header">
           <Link className="navbar-brand text-white" to="/">
-            PETINDER
+            CAR DEALS
           </Link>
         </div>
         <button

@@ -1,5 +1,3 @@
-body {
-  background: url(../assets/background.jpg);
-  background-size: cover;
-  font-family: "Trirong", serif;
+.main-app {
+  background-image: linear-gradient(#1f2118, #5d7c1d);
 }

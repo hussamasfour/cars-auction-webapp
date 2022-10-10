@@ -43,8 +43,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.cors().and().csrf().disable().
-                authorizeRequests().antMatchers( "/api/signup","/api/login", "/actuator/**").permitAll()
-                .antMatchers("/api/car").hasRole("USER")
+                authorizeRequests().antMatchers( "/api/signup","/api/login", "/actuator/**", "/api/car").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();

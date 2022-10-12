@@ -1,7 +1,6 @@
 import Car from "../Car/Car";
 import "./CarList.css";
 const CarList = ({ allCars }) => {
-  console.log(allCars);
   return (
     <div className="">
       <div className="row car-list">

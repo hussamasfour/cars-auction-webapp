@@ -1,3 +1,9 @@
 .car-btn {
   width: 100%;
 }
+
+.bid-value {
+  font-weight: 700;
+  color: green;
+  font-size: 16px;
+}

@@ -14,13 +14,13 @@ const Home = () => {
   }, []);
 
   if (allCars.length === 0) {
-    return <p>Loading</p>;
+    return null;
   } else {
     return (
-      <div className="row back d-flex ">
+      <div className="row d-flex  ">
         <NavBar />
 
-        <h1 className="d-flex justify-content-center home-header">
+        <h1 className="row justify-content-center home-header">
           Welcome To Car Deals
         </h1>
         <Search allCars={allCars} />

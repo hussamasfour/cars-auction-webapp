@@ -113,6 +113,7 @@ public class UserService implements UserServiceI {
 
             SignInResponse signInResponse = new SignInResponse();
             signInResponse.setId(userDetails.getId());;
+            signInResponse.setFirstName(userDetails.getFirstName());
             signInResponse.setEmail(userDetails.getUsername());
             signInResponse.setRoles(roles);
 

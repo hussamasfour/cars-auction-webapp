@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import AuthService from "../utils/authService";
 import "./App.css";
+import CarDetails from "./CarDetails/CarDetails";
 import Home from "./Home/Home";
 import Login from "./Login/Login";
+import NavBar from "./NavBar/NavBar";
 import Register from "./Register/Register";
+import SearchResult from "./SearchResult/SearchResult";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -18,13 +21,13 @@ function App() {
   }, []);
 
   return (
-    <div className="container main-app">
+    <div className="container">
       <Routes>
         <Route
           path="/"
           element={currentUser ? <Home /> : <Navigate replace to="/login" />}
         />
-        />
+
         <Route
           path="/login"
           element={currentUser ? <Navigate replace to="/" /> : <Login />}
@@ -33,6 +36,8 @@ function App() {
           path="/register"
           element={currentUser ? <Navigate replace to="/" /> : <Register />}
         />
+        <Route path="/result" element={<SearchResult />} />
+        <Route path="/car/:id" element={<CarDetails />} />
       </Routes>
     </div>
   );

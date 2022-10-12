@@ -13,9 +13,13 @@ const getAllCars = async () => {
   return await ApiConnecter.get("/car");
 };
 
+const getCarById = async (id) => {
+  return await ApiConnecter.get("/car/" + id);
+};
 const carService = {
   searchCar,
   getAllCars,
+  getCarById,
 };
 
 export default carService;

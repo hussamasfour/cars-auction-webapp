@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  background: url(./assets/background1.jpg);
   background-size: cover;
   font-family: "Trirong", serif;
 }

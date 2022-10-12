@@ -1,22 +1,55 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import carService from "../../utils/carService";
 
 import CarList from "../CarList/CarList";
 
 const Search = ({ allCars }) => {
-  // const [searchValue, setSearchValue] = useState("");
-  // const [searchResult, setSearchResult] = useState({});
-  // const [searchShow,setSearchShow] = useState(false);
+  const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResult, setSearchResult] = useState({});
+  const [isClicked, setIsClicked] = useState(false);
 
-  // const handleChange = (e) => {
-  //   setSearchValue(e.target.value);
-  // };
+  const getSearch = async () => {
+    const data = await axios.get("http://localhost:8080/api/search-car", {
+      params: {
+        query: searchValue,
+      },
+    });
+    setSearchResult(data);
+    setIsClicked(false);
+  };
+  useEffect(() => {
+    if (searchValue.length !== 0 && isClicked) {
+      // carService.searchCar(searchValue).then((response) => {
+      //   setSearchResult(response.data);
+      //   setIsClicked(false);
+      //   console.log(searchResult);
 
-  // const handleSearch = (e) => {
-  //   carService.searchCar(searchValue).then((response)=>{
-  //     setSearchResult(response.data);
-  //   });
-  //   setSearchShow(true);
-  // };
+      // });
+
+      getSearch();
+      console.log(searchResult);
+
+      if (searchResult.status === 200) {
+        navigate("/result", {
+          state: { searchResult },
+        });
+      }
+    }
+  }, [isClicked, searchValue]);
+
+  const handleChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  const handleSearch = (e) => {
+    // carService.searchCar(searchValue).then((response)=>{
+    //   setSearchResult(response.data);
+    setIsClicked(true);
+  };
+
   return (
     <div>
       <div className="row  d-flex justify-content-center align-items-center mt-5">
@@ -27,9 +60,11 @@ const Search = ({ allCars }) => {
               type="text"
               className="form-control p-4"
               placeholder="Search by Make, Year, Model or vin"
-              // onChange={handleChange}
+              onChange={handleChange}
             />
-            <button className="btn btn-primary ">Go</button>
+            <button className="btn btn-primary " onClick={handleSearch}>
+              Go
+            </button>
           </div>
         </div>
       </div>

@@ -31,8 +31,9 @@ const Login = () => {
           setLoginError(error.response.data);
           setIsSubmitted(false);
         });
+      setIsSubmitted(false);
     }
-  }, [isSubmitted, navigate, loginError, values]);
+  }, [isSubmitted, loginError, values]);
 
   const validateInput = (data) => {
     const errors = {};

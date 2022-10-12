@@ -4,11 +4,11 @@ import "./Car.css";
 
 const Car = ({ car }) => {
   const navigate = useNavigate();
-  console.log(car);
+
   const bids = car.bids;
   const maxBid = Math.max(...bids.map((o) => o.amount));
   return (
-    <div className="col-md-4 col-sm-6 col-lg-3 col-xl-3">
+    <div className="col-md-4 col-sm-6 col-lg-3 col-xl-3 mb-3">
       <div className="card">
         <img
           src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
@@ -26,10 +26,10 @@ const Car = ({ car }) => {
           <div className="row  align-items-center justify-content-center">
             <div className="col-xl-12 col-lg-12">
               <p>
-                CurrentBid:{" "}
-                <span className="text-success font-italic">
+                Current Bid:{" "}
+                <span className=" bid-value">
                   {" "}
-                  {maxBid > 0 ? maxBid : "Start The Bidding"}
+                  {maxBid > 0 ? maxBid : "No Bid Yet"}
                 </span>
               </p>
               <button

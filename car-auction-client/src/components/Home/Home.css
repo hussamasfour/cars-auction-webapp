@@ -1,11 +1,10 @@
-.body .back {
+/* .body .back {
   display: flex;
 
   width: 100%;
-}
+} */
 
 .home-header {
-  color: antiquewhite;
-  margin-top: 100px !important;
-  font-weight: 700;
+  color: #fff;
+  margin-top: 85px !important;
 }

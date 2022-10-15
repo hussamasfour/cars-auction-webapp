@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Car from "../Car/Car";
 import NavBar from "../NavBar/NavBar";
 import Search from "../Search/Search";
@@ -7,13 +7,14 @@ import Search from "../Search/Search";
 const SearchResult = () => {
   const [searchedCar, setSearchedCar] = useState([]);
   const location = useLocation();
+
   useEffect(() => {
     console.log(location.state);
     setSearchedCar(location.state.searchResult);
   }, []);
 
   return (
-    <div>
+    <React.Fragment>
       <NavBar />
 
       <Search searchVal={location.state.searchValue} />
@@ -30,7 +31,7 @@ const SearchResult = () => {
           );
         })}
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

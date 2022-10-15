@@ -7,10 +7,12 @@ const Car = ({ car }) => {
 
   const bids = car.bids;
   const maxBid = Math.max(...bids.map((o) => o.amount));
+
+  console.log(car);
   return (
     <div className="card card-custom">
       <img
-        src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
+        src={"./images/" + car.imagesLink}
         className="card-img-top"
         alt="..."
       />

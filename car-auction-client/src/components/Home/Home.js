@@ -33,7 +33,7 @@ const Home = () => {
     return <h3 className="text-white">Loading...</h3>;
   } else {
     return (
-      <div className="row d-flex  ">
+      <div className="row">
         <NavBar />
 
         <h1 className="row justify-content-center home-header">

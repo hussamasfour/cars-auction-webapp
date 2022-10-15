@@ -35,11 +35,11 @@ const CarDetails = () => {
       });
   };
   return (
-    <div>
+    <React.Fragment>
       <NavBar />
       <div className="row  ">
         <div className="col-lg-10">
-          <div className="mt-5 p-4 bg-white mb-3 rounded">
+          <div className="mt-5 px-3 py-3 mb-3 bg-dark rounded text-white ">
             {/* <Link to="/">Back </Link> */}
             <h4>
               {selectedCar.year} {selectedCar.make} {selectedCar.model}
@@ -53,7 +53,7 @@ const CarDetails = () => {
         "
         >
           <img
-            src="/audi.jpg"
+            src={"images/" + selectedCar.imagesLink}
             alt="car img"
             width="100%"
             height="400px"
@@ -61,7 +61,7 @@ const CarDetails = () => {
           />
         </div>
         <div className="col-lg-5 col-md-12 col-sm-12 ">
-          <div className="bg-white rounded  p-3">
+          <div className="bg-dark rounded text-white  p-3">
             <h3>Car Info:</h3>
             <div className="p-2">
               <div className="row justify-content-space-between car-info">
@@ -118,7 +118,7 @@ const CarDetails = () => {
               </div>
             </div>
           </div>
-          <div className="bidding-info bg-white mt-3 rounded p-3">
+          <div className="bidding-info bg-dark rounded text-white mt-3 rounded p-3">
             <h3>Bidding Details:</h3>
             <div className=" car-info">
               <div className="d-flex justify-content-between pt-3 pb-2">
@@ -155,7 +155,7 @@ const CarDetails = () => {
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

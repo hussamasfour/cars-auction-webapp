@@ -7,8 +7,6 @@ import com.hussam.carsAuction.repository.UserRepository;
 import com.hussam.carsAuction.security.userService.UserDetailsImp;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Optional;
 
 @Service

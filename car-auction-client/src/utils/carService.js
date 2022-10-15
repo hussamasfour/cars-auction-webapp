@@ -16,10 +16,20 @@ const getAllCars = async () => {
 const getCarById = async (id) => {
   return await ApiConnecter.get("/car/" + id);
 };
+
+const placeBid = async (car_id, bidAmount) => {
+  return await ApiConnecter.post("/bid", {
+    params: {
+      car_id: car_id,
+      amount: bidAmount,
+    },
+  });
+};
 const carService = {
   searchCar,
   getAllCars,
   getCarById,
+  placeBid,
 };
 
 export default carService;

@@ -4,7 +4,9 @@ import com.hussam.carsAuction.entity.Bid;
 import com.hussam.carsAuction.entity.Car;
 import com.hussam.carsAuction.entity.User;
 import com.hussam.carsAuction.exception.InvalidBidException;
+import com.hussam.carsAuction.exception.NotFoundException;
 import com.hussam.carsAuction.repository.BidRepository;
+import com.hussam.carsAuction.security.userService.UserDetailsImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +29,12 @@ public class BidService implements BidServiceI{
     }
 
     @Override
-    public Bid addBid(Long car_id, Long user_id, double amount) {
+    public Bid addBid(Long car_id, UserDetailsImp currentUser, double amount) {
         Car selected_car = carService.getCarById(car_id);
-        User user = userService.getUserById(user_id);
+        if(currentUser == null){
+            throw new InvalidBidException("you have to login first to place a bid");
+        }
+        User user = userService.getUserByEmail(currentUser.getEmail());
 
         if(new Date().compareTo(selected_car.getAuctionEnd()) >0){
             throw new InvalidBidException("The auction for the selected car is ended!");

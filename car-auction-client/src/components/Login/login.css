@@ -33,7 +33,7 @@
   flex-direction: column;
   width: 100%;
 }
-input {
+.custom-input {
   padding-top: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
@@ -43,7 +43,7 @@ input {
   height: 20px;
 }
 
-input:focus {
+.custom-input:focus {
   outline: 0;
   border-color: green;
 }

@@ -1,3 +1,11 @@
+.card-custom {
+  cursor: pointer;
+}
+
+.card-custom:hover {
+  opacity: 0.7;
+  border: 1px solid green;
+}
 .car-btn {
   width: 100%;
 }

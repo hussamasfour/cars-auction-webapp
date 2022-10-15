@@ -25,13 +25,13 @@ const Login = () => {
     if (Object.keys(loginError).length === 0 && isSubmitted) {
       AuthService.login(values)
         .then(() => {
+          setIsSubmitted(false);
           navigate("/");
         })
         .catch((error) => {
           setLoginError(error.response.data);
           setIsSubmitted(false);
         });
-      setIsSubmitted(false);
     }
   }, [isSubmitted, loginError, values]);
 
@@ -65,6 +65,7 @@ const Login = () => {
       <div className="in">
         <div className="input-control">
           <input
+            className="custom-input"
             type="text"
             id="email"
             name="email"
@@ -76,6 +77,7 @@ const Login = () => {
         </div>
         <div className="input-control">
           <input
+            className="custom-input"
             type="password"
             id="password"
             name="password"

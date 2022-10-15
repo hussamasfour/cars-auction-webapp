@@ -1,5 +1,6 @@
 package com.hussam.carsAuction.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,5 +30,6 @@ public class Address {
     private String zipcode;
     @OneToOne
     @MapsId
+    @JsonIgnore
     private User user;
 }

@@ -1,5 +1,6 @@
 package com.hussam.carsAuction.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
@@ -41,7 +42,8 @@ public class Car {
     private Date auctionStart;
     @Temporal(TemporalType.DATE)
     private Date auctionEnd;
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<Bid> bids = new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

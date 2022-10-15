@@ -1,6 +1,7 @@
 package com.hussam.carsAuction.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +43,6 @@ public class User {
     @Column(length = 10)
     private Long phone;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private Address address;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -56,7 +57,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private Set<Bid> bids;
+    @JsonIgnore
+    private List<Bid> bids;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private BankAccount bankAccount;

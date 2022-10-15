@@ -5,6 +5,7 @@ import com.hussam.carsAuction.security.annotation.CurrentUser;
 import com.hussam.carsAuction.security.userService.UserDetailsImp;
 import com.hussam.carsAuction.service.CarServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,6 +43,7 @@ public class CarController {
     @GetMapping("/car")
     public ResponseEntity<?> getAllCars() throws ParseException {
         List<Car> carList = carService.getAllCars();
+
         return new ResponseEntity<>(carList, HttpStatus.OK);
     }
 
@@ -50,5 +52,11 @@ public class CarController {
         List<Car> cars = carService.searchCars(query);
 
         return new ResponseEntity<>(cars, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/car")
+    public ResponseEntity<?> removeCar(@RequestParam("id") Long id){
+        carService.removeCar(id);
+        return new ResponseEntity<>("Selected Car is deleted successfully", HttpStatus.OK);
     }
 }

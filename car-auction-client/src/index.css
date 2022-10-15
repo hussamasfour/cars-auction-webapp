@@ -3,6 +3,7 @@ body {
   background: url(./assets/background1.jpg);
   background-size: cover;
   font-family: "Trirong", serif;
+  background-repeat: none;
 }
 
 code {

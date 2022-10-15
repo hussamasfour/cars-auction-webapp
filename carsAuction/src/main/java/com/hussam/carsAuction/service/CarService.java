@@ -57,4 +57,14 @@ public class CarService implements CarServiceI{
         Date d = new Date();
         return carRepository.searchCars(query, d);
     }
+
+    @Override
+    public void removeCar(Long id) {
+        Car car = getCarById(id);
+        if(car == null){
+            throw new NotFoundException("Car with id:" + id + " does not exit!!");
+        }
+
+        carRepository.delete(car);
+    }
 }

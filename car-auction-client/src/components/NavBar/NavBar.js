@@ -31,7 +31,7 @@ const NavBar = () => {
               height="25"
               className="d-inline-block m-2"
             />
-            CAR DEALS
+            CARS DEAL
           </Link>
         </div>
         <button
@@ -58,11 +58,7 @@ const NavBar = () => {
                 Home
               </Link>
             </li>
-            <li className="nav-item ">
-              <Link className="nav-link text-white" to="/explore">
-                Explore
-              </Link>
-            </li>
+
             <li className="nav-item dropdown">
               <Link
                 className="nav-link text-white dropdown-toggle"

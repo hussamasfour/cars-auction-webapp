@@ -31,5 +31,11 @@ public interface CarServiceI {
      * @return list of cars that matched the query
      */
     List<Car> searchCars(String query);
+
+    /**
+     * remove car with selected id
+     * @param id
+     */
+    void removeCar(Long id);
 }
 

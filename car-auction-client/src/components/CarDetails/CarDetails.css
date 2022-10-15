@@ -1,0 +1,18 @@
+.car-info {
+  font-size: 14px;
+  padding: 0;
+}
+
+.car-info div {
+  padding-right: 0;
+  padding-left: 0;
+}
+.car-info div:not(:first-child) {
+  border-top: 1px solid #ddd;
+}
+
+.bid-input {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 120px;
+}

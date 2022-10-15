@@ -43,7 +43,6 @@ public class Car {
     @Temporal(TemporalType.DATE)
     private Date auctionEnd;
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private Set<Bid> bids = new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

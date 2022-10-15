@@ -17,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -85,8 +86,21 @@ public class UserService implements UserServiceI {
                throw new ResourceAlreadyInUseException("Email", "address", newUserEmail);
            }
            Set<Role> roles = new HashSet<>();
-           Role role = roleRepository.findByType(Type.ROLE_USER);
-           roles.add(role);
+           Set<String> userRole = user.getRoles();
+
+           if(userRole.isEmpty()){
+               Role defaultRole = roleRepository.findByType(Type.ROLE_USER);
+               roles.add(defaultRole);
+           }else{
+               userRole.forEach( role ->{
+                   if(role.equalsIgnoreCase("admin")){
+                       roles.add(roleRepository.findByType(Type.ROLE_ADMIN));
+                   }else{
+                       roles.add(roleRepository.findByType(Type.ROLE_USER));
+                   }
+               });
+           }
+
            User newUser = new User();
            newUser.setFirstName(user.getFirstName());
            newUser.setLastName(user.getLastName());

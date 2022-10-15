@@ -11,17 +11,17 @@ import com.hussam.carsAuction.payload.response.SignInResponse;
 import com.hussam.carsAuction.repository.RoleRepository;
 import com.hussam.carsAuction.repository.UserRepository;
 import com.hussam.carsAuction.security.userService.UserDetailsImp;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ConstraintViolationException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
  * class to provide implementation for user service interface
  */
 
+@Slf4j
 @Service
 public class UserService implements UserServiceI {
 
@@ -52,14 +53,19 @@ public class UserService implements UserServiceI {
     }
 
     /**
-     * Method toget user from the database using id
+     * Method to get user from the database using id
      * @param user_id
      * @return User Object if found and null if not
      */
     @Override
     public User getUserById(Long user_id){
+        log.info("Inside getUserById method from userService class");
+        log.info("Finding the user with id: "+ user_id +" and return it if it is exist!");
         Optional<User> user = userRepository.findById(user_id);
-        return user.orElseThrow(()-> new NotFoundException("user with id: "+ user_id +" not found"));
+        return user.orElseThrow(()->{
+                log.error("There is no user registered with id: " +user_id);
+                throw  new NotFoundException("user with id: "+ user_id +" not found");
+        });
     }
 
     /**
@@ -69,8 +75,13 @@ public class UserService implements UserServiceI {
      */
     @Override
     public User getUserByEmail(String email){
+        log.info("Inside getUserByEmail method from userService class");
+        log.info("Finding the user with email: "+ email +" and return the user Object");
         Optional<User> user = userRepository.findUserByEmail(email);
-        return user.orElseThrow(() -> new NotFoundException("User is not found with email " + email));
+        return user.orElseThrow(() -> {
+            log.error("There is no user registered with email: " +email);
+            throw new NotFoundException("User is not found with email " + email);
+        });
     }
 
 
@@ -81,33 +92,23 @@ public class UserService implements UserServiceI {
      */
     @Override
     public User registerUser(SignUpRequest user){
-           String newUserEmail = user.getEmail();
-           if (emailAlreadyExist(newUserEmail)) {
-               throw new ResourceAlreadyInUseException("Email", "address", newUserEmail);
-           }
-           Set<Role> roles = new HashSet<>();
-           Set<String> userRole = user.getRoles();
+        log.info("Inside registerUser method from userService class");
+        String newUserEmail = user.getEmail();
+        if (emailAlreadyExist(newUserEmail)) {
+            log.error("There is existing user with this email: "+ newUserEmail);
+            throw new ResourceAlreadyInUseException("Email", "address", newUserEmail);
+        }
+        Set<Role> roles = setNewUserRole(user.getRoles());
 
-           if(userRole.isEmpty()){
-               Role defaultRole = roleRepository.findByType(Type.ROLE_USER);
-               roles.add(defaultRole);
-           }else{
-               userRole.forEach( role ->{
-                   if(role.equalsIgnoreCase("admin")){
-                       roles.add(roleRepository.findByType(Type.ROLE_ADMIN));
-                   }else{
-                       roles.add(roleRepository.findByType(Type.ROLE_USER));
-                   }
-               });
-           }
-
-           User newUser = new User();
-           newUser.setFirstName(user.getFirstName());
-           newUser.setLastName(user.getLastName());
-           newUser.setEmail(user.getEmail());
-           newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-           newUser.setRole(roles);
-           return userRepository.save(newUser);
+        log.info("Creating the new user object");
+        User newUser = new User();
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        newUser.setRole(roles);
+        log.info("Saving the new user information to the database");
+        return userRepository.save(newUser);
     }
 
     /**
@@ -117,21 +118,24 @@ public class UserService implements UserServiceI {
      */
     @Override
     public SignInResponse login(LoginRequest loginRequest) {
-            Authentication authentication = authenticateUser(loginRequest);
+        log.info("Inside login method from userService class");
+        log.info("Authenticating user email and password");
+        Authentication authentication = authenticateUser(loginRequest);
+        log.info("Setting the authenticated principle to the context");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        log.info("Get the authenticated user details");
+        UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();
-
-            List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-                    .collect(Collectors.toList());
-
-            SignInResponse signInResponse = new SignInResponse();
-            signInResponse.setId(userDetails.getId());;
-            signInResponse.setFirstName(userDetails.getFirstName());
-            signInResponse.setEmail(userDetails.getUsername());
-            signInResponse.setRoles(roles);
-
-            return signInResponse;
+        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+        log.info("create sign in response object");
+        SignInResponse signInResponse = new SignInResponse();
+        signInResponse.setId(userDetails.getId());;
+        signInResponse.setFirstName(userDetails.getFirstName());
+        signInResponse.setEmail(userDetails.getUsername());
+        signInResponse.setRoles(roles);
+        log.info("Return the sign in response");
+        return signInResponse;
     }
 
     /**
@@ -140,10 +144,38 @@ public class UserService implements UserServiceI {
      * @return true if email is exist else false
      */
     boolean emailAlreadyExist(String email){
+        log.info("Checking if the email: "+ email + " is already in use");
         return userRepository.existsByEmail(email);
     }
 
     public Authentication authenticateUser(LoginRequest loginRequest){
+        log.info("Checking if the user email and password authenticated");
         return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword()));
+    }
+
+    /**
+     * Method to find all the role for the new user
+     * @param roles
+     * @return set of user roles
+     */
+    public Set<Role> setNewUserRole(Set<String> roles){
+        Set<Role> userRole = new HashSet<>();
+        if(roles.isEmpty()){
+            log.info("Setting the default role for the user");
+            Role defaultRole = roleRepository.findByType(Type.ROLE_USER);
+
+            userRole.add(defaultRole);
+        }else{
+            roles.forEach( role ->{
+                if(role.equalsIgnoreCase("admin")){
+                    log.info("Adding an ADMIN role for the user ");
+                    userRole.add(roleRepository.findByType(Type.ROLE_ADMIN));
+                }else{
+                    log.info("Adding an USER role for the user ");
+                    userRole.add(roleRepository.findByType(Type.ROLE_USER));
+                }
+            });
+        }
+        return userRole;
     }
 }

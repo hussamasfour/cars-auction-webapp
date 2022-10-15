@@ -23,6 +23,7 @@ const SearchResult = () => {
           <span className="text-success">{searchedCar.length}</span> Searched
           Results for: {location.state.searchValue}
         </h2>
+
         {searchedCar.map((car) => {
           return (
             <div className="col-md-4 col-sm-6 col-lg-4 col-xl-4 mb-3">

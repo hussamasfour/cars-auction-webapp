@@ -13,7 +13,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +35,6 @@ public class CustomExceptionHandler  extends ResponseEntityExceptionHandler {
 
             return new ResponseEntity<>(exceptionResponse, new HttpHeaders(), HttpStatus.NOT_FOUND);
         }
-
         @ExceptionHandler(ConstraintViolationException.class)
         public final ResponseEntity<ExceptionResponse> handleConstraintViolationException(ConstraintViolationException ex, WebRequest webRequest){
             List<String> details  = new ArrayList<>();
@@ -44,7 +42,7 @@ public class CustomExceptionHandler  extends ResponseEntityExceptionHandler {
             ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),"Validation Error", details, webRequest.getDescription(false));
 
             return new ResponseEntity<>(exceptionResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST);
-        }
+    }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public final ResponseEntity<ExceptionResponse> handleDataIntegrityViolationException (DataIntegrityViolationException ex, WebRequest webRequest){

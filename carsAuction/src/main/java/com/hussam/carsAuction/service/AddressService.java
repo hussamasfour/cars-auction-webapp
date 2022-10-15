@@ -5,10 +5,12 @@ import com.hussam.carsAuction.entity.User;
 import com.hussam.carsAuction.repository.AddressRepository;
 import com.hussam.carsAuction.repository.UserRepository;
 import com.hussam.carsAuction.security.userService.UserDetailsImp;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class AddressService implements AddressServiceI{
 
@@ -18,7 +20,6 @@ public class AddressService implements AddressServiceI{
 
     public AddressService(UserRepository userRepository, AddressRepository addressRepository) {
         this.userRepository = userRepository;
-
         this.addressRepository = addressRepository;
     }
 
@@ -31,23 +32,15 @@ public class AddressService implements AddressServiceI{
      */
     @Override
     public Address addAddress(UserDetailsImp currentUser, Address address) {
-
-            String email = currentUser.getUsername();
+            log.info("adding address to current logged in user");
+            String email = currentUser.getEmail();
+            log.info("check if the user exist!");
             Optional<User> user = userRepository.findUserByEmail(email);
+            log.info("setting the address for user with email: " + email );
             user.get().setAddress(address);
             address.setUser(user.get());
-
+            log.info("saving the address to the database");
             return addressRepository.save(address);
-
-//        if(user.isPresent() && user.get().getAddress() !=null){
-//            Address address1 = user.get().getAddress();
-////            address1.setUser(user.get());
-//            address1.setStreet(address.getStreet());
-//            address1.setCity(address.getCity());
-//            address1.setZipcode(address.getZipcode());
-////            user.get().setAddress(address1);
-//            addressRepository.save(address);
-//        }
 
     }
 }

@@ -2,9 +2,11 @@ package com.hussam.carsAuction.service;
 
 import com.hussam.carsAuction.entity.Car;
 
-import java.text.ParseException;
 import java.util.List;
 
+/**
+ * interface for car service method
+ */
 public interface CarServiceI {
 
     /**
@@ -21,9 +23,10 @@ public interface CarServiceI {
         void addCar(Car car);
 
     /**
-     * method to list all active cars
+     * method to get all active cars
+     * @return list of cars
      */
-        List<Car> getAllCars() throws ParseException;
+        List<Car> getAllCars();
 
     /**
      * Method to search for car

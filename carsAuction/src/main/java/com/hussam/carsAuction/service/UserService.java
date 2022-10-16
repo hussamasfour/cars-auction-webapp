@@ -10,6 +10,8 @@ import com.hussam.carsAuction.payload.request.SignUpRequest;
 import com.hussam.carsAuction.payload.response.SignInResponse;
 import com.hussam.carsAuction.repository.RoleRepository;
 import com.hussam.carsAuction.repository.UserRepository;
+//import com.hussam.carsAuction.security.jwt.JwtUtils;
+import com.hussam.carsAuction.security.jwt.JWTUtilities;
 import com.hussam.carsAuction.security.userService.UserDetailsImp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,8 @@ public class UserService implements UserServiceI {
     private final RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private JWTUtilities JWTUtilities;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -125,7 +129,8 @@ public class UserService implements UserServiceI {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         log.info("Get the authenticated user details");
         UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();
-
+//
+        String jwt = JWTUtilities.generateJwtToken(userDetails);
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         log.info("create sign in response object");
@@ -133,6 +138,7 @@ public class UserService implements UserServiceI {
         signInResponse.setId(userDetails.getId());;
         signInResponse.setFirstName(userDetails.getFirstName());
         signInResponse.setEmail(userDetails.getUsername());
+        signInResponse.setAccessToken(jwt);
         signInResponse.setRoles(roles);
         log.info("Return the sign in response");
         return signInResponse;

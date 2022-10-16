@@ -10,6 +10,7 @@ public class SignInResponse {
     private Long id;
     private String firstName;
     private String email;
-
+    private String accessToken;
+    private String type = "Bearer";
     private List<String> roles;
 }

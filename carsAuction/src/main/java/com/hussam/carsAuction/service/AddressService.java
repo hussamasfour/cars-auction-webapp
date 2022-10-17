@@ -2,6 +2,7 @@ package com.hussam.carsAuction.service;
 
 import com.hussam.carsAuction.entity.Address;
 import com.hussam.carsAuction.entity.User;
+import com.hussam.carsAuction.exception.ResourceAlreadyInUseException;
 import com.hussam.carsAuction.repository.AddressRepository;
 import com.hussam.carsAuction.repository.UserRepository;
 import com.hussam.carsAuction.security.userService.UserDetailsImp;
@@ -37,6 +38,9 @@ public class AddressService implements AddressServiceI{
             log.info("check if the user exist!");
             Optional<User> user = userRepository.findUserByEmail(email);
             log.info("setting the address for user with email: " + email );
+            if(user.get().getAddress() !=null){
+                throw new ResourceAlreadyInUseException(user.get().getFirstName(), "address" ,user.get().getAddress().getStreet());
+            }
             user.get().setAddress(address);
             address.setUser(user.get());
             log.info("saving the address to the database");

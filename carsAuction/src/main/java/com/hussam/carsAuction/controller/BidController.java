@@ -4,6 +4,7 @@ import com.hussam.carsAuction.security.annotation.CurrentUser;
 import com.hussam.carsAuction.security.userService.UserDetailsImp;
 import com.hussam.carsAuction.service.BidServiceI;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:3000")
 public class BidController {
 
-    private BidServiceI bidService;
+    private final BidServiceI bidService;
 
+    @Autowired
     public BidController(BidServiceI bidService) {
         this.bidService = bidService;
     }

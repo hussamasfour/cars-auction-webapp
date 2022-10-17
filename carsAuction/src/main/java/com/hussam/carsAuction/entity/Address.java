@@ -28,8 +28,9 @@ public class Address {
     @Column(nullable = false, length = 5)
     @NotBlank(message = "ZipCode is required")
     private String zipcode;
-    @OneToOne
-    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
+
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
 }

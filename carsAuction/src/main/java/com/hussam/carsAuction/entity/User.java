@@ -42,6 +42,7 @@ public class User {
     private String password;
     @Column(length = 10)
     private Long phone;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Address address;
 

@@ -10,7 +10,6 @@ import com.hussam.carsAuction.payload.request.SignUpRequest;
 import com.hussam.carsAuction.payload.response.SignInResponse;
 import com.hussam.carsAuction.repository.RoleRepository;
 import com.hussam.carsAuction.repository.UserRepository;
-//import com.hussam.carsAuction.security.jwt.JwtUtils;
 import com.hussam.carsAuction.security.jwt.JWTUtilities;
 import com.hussam.carsAuction.security.userService.UserDetailsImp;
 import lombok.extern.slf4j.Slf4j;
@@ -102,7 +101,7 @@ public class UserService implements UserServiceI {
             log.error("There is existing user with this email: "+ newUserEmail);
             throw new ResourceAlreadyInUseException("Email", "address", newUserEmail);
         }
-        Set<Role> roles = setNewUserRole(user.getRoles());
+        Set<Role> userRole = setNewUserRole(user.getRoles());
 
         log.info("Creating the new user object");
         User newUser = new User();
@@ -110,7 +109,7 @@ public class UserService implements UserServiceI {
         newUser.setLastName(user.getLastName());
         newUser.setEmail(user.getEmail());
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        newUser.setRole(roles);
+        newUser.setRole(userRole);
         log.info("Saving the new user information to the database");
         return userRepository.save(newUser);
     }
@@ -129,7 +128,6 @@ public class UserService implements UserServiceI {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         log.info("Get the authenticated user details");
         UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();
-//
         String jwt = JWTUtilities.generateJwtToken(userDetails);
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
@@ -166,7 +164,7 @@ public class UserService implements UserServiceI {
      */
     public Set<Role> setNewUserRole(Set<String> roles){
         Set<Role> userRole = new HashSet<>();
-        if(roles.isEmpty()){
+        if(roles== null){
             log.info("Setting the default role for the user");
             Role defaultRole = roleRepository.findByType(Type.ROLE_USER);
 

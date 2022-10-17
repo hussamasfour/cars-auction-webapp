@@ -51,7 +51,7 @@ public class BidService implements BidServiceI{
 
         if(highestBid !=null && amount <= highestBid){
            log.error(String.format("the bid amount: %f is less than the highest bid: %f", amount, highestBid));
-           throw new InvalidBidException("Your bid is not the highest bid");
+           throw new InvalidBidException("Your bid is not the highest");
        }
 
         log.info(String.format("creating the bid with amount: %f for car with id: %d", amount,car_id));

@@ -69,7 +69,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().
-                authorizeRequests().antMatchers( "/api/signup","/api/login", "/actuator/**", "/api/car/**", "/api/search-car").permitAll()
+                authorizeRequests().antMatchers( "/api/signup","/api/login", "/actuator/**", "/api/car/**", "/api/search-car", "api/bid").permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthEntry()) .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

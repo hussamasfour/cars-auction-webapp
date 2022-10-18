@@ -32,11 +32,11 @@ public class BidRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
+
     @Test
     public void testFindHighestBid() throws ParseException {
 
         Car car = new Car();
-        car.setId(1L);
         car.setVinNumber("12345678");
         car.setMake("Audi");
         car.setModel("Q5");
@@ -49,11 +49,12 @@ public class BidRepositoryTest {
         car.setTransmission("Automatic");
         car.setDrive("Front-Wheel");
 
-        String date_string = "10-29-2022";
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        String date_string = "2022-10-28";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse(date_string);
         car.setAuctionEnd(date);
 
+        carRepository.save(car);
 
         User user = new User();
         user.setEmail("test@gmail.com");
@@ -62,6 +63,8 @@ public class BidRepositoryTest {
         user.setPassword("12345678");
         userRepository.save(user);
 
+        Optional<User> s = userRepository.findUserByEmail("test@gmail.com");
+
         Bid bid1 = new Bid();
         bid1.setId(2L);
         bid1.setBidDate(new Date());
@@ -69,24 +72,16 @@ public class BidRepositoryTest {
         bid1.setUser(user);
         bid1.setCar(car);
 
-
+        bidRepository.save(bid1);
         Bid bid2 = new Bid();
         bid2.setId(1L);
         bid2.setBidDate(new Date());
         bid2.setAmount(2000.10);
         bid2.setCar(car);
         bid2.setUser(user);
+        bidRepository.save(bid2);
 
 
-        Set<Bid> bids = new HashSet<>();
-        bids.add(bid1);
-        bids.add(bid2);
-        car.setBids(bids);
-
-        carRepository.save(car);
-
-
-        Double high =  bidRepository.findHighestBid(car.getId());
-        Assertions.assertEquals(bid2.getAmount(), high);
+        Assertions.assertEquals(bid2.getAmount(), bidRepository.findHighestBid(car.getId()));
     }
 }

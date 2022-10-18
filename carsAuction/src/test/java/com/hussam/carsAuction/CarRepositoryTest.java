@@ -3,6 +3,7 @@ package com.hussam.carsAuction;
 import com.hussam.carsAuction.entity.Car;
 import com.hussam.carsAuction.repository.CarRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
+
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
@@ -20,10 +24,14 @@ public class CarRepositoryTest {
     @Autowired
     private CarRepository carRepository;
 
-    @Test
-    public void testFindAllByAuctionEndGreaterThanEqual_success(){
-        Car car1 = new Car();
 
+    @Test
+    public void testFindAllByAuctionEndGreaterThanEqual_success() throws ParseException {
+
+
+        List<Car> carList = carRepository.findAllByAuctionEndGreaterThanEqual(new Date());
+
+        Assertions.assertEquals(6, carList.size());
     }
 
     @Test

@@ -14,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity(name = "car")
 @Table(name = "car")
 public class Car {
@@ -49,7 +50,9 @@ public class Car {
     private Date auctionEnd;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Set<Bid> bids = new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private User user;
 }

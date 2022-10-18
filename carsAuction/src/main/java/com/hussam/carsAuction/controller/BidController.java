@@ -23,6 +23,12 @@ public class BidController {
         this.bidService = bidService;
     }
 
+    /**
+     * End point to handle request for adding bid to selected car
+     * @param bidDTO
+     * @param currentUser
+     * @return
+     */
     @PostMapping("/bid")
     public ResponseEntity<?> addBidToCar(@RequestBody BidDTO bidDTO, @CurrentUser UserDetailsImp currentUser)  {
             log.info("Inside the addBidToCar method in BidController!");

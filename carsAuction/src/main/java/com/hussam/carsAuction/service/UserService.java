@@ -1,5 +1,6 @@
 package com.hussam.carsAuction.service;
 
+import com.hussam.carsAuction.entity.BankAccount;
 import com.hussam.carsAuction.entity.Role;
 import com.hussam.carsAuction.entity.Type;
 import com.hussam.carsAuction.entity.User;
@@ -8,6 +9,7 @@ import com.hussam.carsAuction.exception.ResourceAlreadyInUseException;
 import com.hussam.carsAuction.payload.request.LoginRequest;
 import com.hussam.carsAuction.payload.request.SignUpRequest;
 import com.hussam.carsAuction.payload.response.SignInResponse;
+import com.hussam.carsAuction.repository.BankAccountRepository;
 import com.hussam.carsAuction.repository.RoleRepository;
 import com.hussam.carsAuction.repository.UserRepository;
 import com.hussam.carsAuction.security.jwt.JWTUtilities;
@@ -42,6 +44,9 @@ public class UserService implements UserServiceI {
 
     private final RoleRepository roleRepository;
 
+
+    private final BankAccountRepository bankAccountRepository;
+
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private JWTUtilities JWTUtilities;
@@ -49,9 +54,10 @@ public class UserService implements UserServiceI {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BankAccountRepository bankAccountRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.bankAccountRepository = bankAccountRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -140,6 +146,21 @@ public class UserService implements UserServiceI {
         signInResponse.setRoles(roles);
         log.info("Return the sign in response");
         return signInResponse;
+    }
+
+    @Override
+    public User addBankInfo(BankAccount bankAccount, UserDetailsImp currentUser) {
+        Optional<User> user = userRepository.findUserByEmail(currentUser.getEmail());
+        if(user.isPresent()){
+            if(user.get().getBankAccount() !=null){
+                throw new ResourceAlreadyInUseException(user.get().getFirstName(), "bankAccount", null);
+            }
+            user.get().setBankAccount(bankAccount);
+            bankAccount.setUser(user.get());
+            bankAccountRepository.save((bankAccount));
+            return user.get();
+        }
+        return null;
     }
 
     /**

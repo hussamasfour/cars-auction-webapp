@@ -1,6 +1,6 @@
 package com.hussam.carsAuction.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
@@ -14,7 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity(name = "car")
 @Table(name = "car")
 public class Car {
@@ -37,11 +36,18 @@ public class Car {
     @Column(nullable = false)
     private double fuelCapacity;
     @Column(nullable = false)
+    private String color;
+    @Column(nullable = false)
+    private String drive;
+    @Column(nullable = false)
+    private String transmission;
+    @Column(nullable = false)
     private String imagesLink;
     @Temporal(TemporalType.DATE)
     private Date auctionStart;
     @Temporal(TemporalType.DATE)
     private Date auctionEnd;
+
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private Set<Bid> bids = new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)

@@ -16,10 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
@@ -48,13 +45,15 @@ public class BidRepositoryTest {
         car.setYear(2022);
         car.setFuelType("Gas");
         car.setImagesLink("img.jpg");
+        car.setColor("Red");
+        car.setTransmission("Automatic");
+        car.setDrive("Front-Wheel");
 
-        String date_string = "26-09-1989";
-        //Instantiating the SimpleDateFormat class
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        //Parsing the given String to Date object
+        String date_string = "10-29-2022";
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
         Date date = formatter.parse(date_string);
         car.setAuctionEnd(date);
+
 
         User user = new User();
         user.setEmail("test@gmail.com");
@@ -64,6 +63,7 @@ public class BidRepositoryTest {
         userRepository.save(user);
 
         Bid bid1 = new Bid();
+        bid1.setId(2L);
         bid1.setBidDate(new Date());
         bid1.setAmount(1000.10);
         bid1.setUser(user);
@@ -71,18 +71,22 @@ public class BidRepositoryTest {
 
 
         Bid bid2 = new Bid();
+        bid2.setId(1L);
         bid2.setBidDate(new Date());
         bid2.setAmount(2000.10);
         bid2.setCar(car);
         bid2.setUser(user);
 
+
         Set<Bid> bids = new HashSet<>();
         bids.add(bid1);
         bids.add(bid2);
-
         car.setBids(bids);
 
         carRepository.save(car);
-        Assertions.assertEquals(bid2.getAmount(), bidRepository.findHighestBid(car.getId()));
+
+
+        Double high =  bidRepository.findHighestBid(car.getId());
+        Assertions.assertEquals(bid2.getAmount(), high);
     }
 }

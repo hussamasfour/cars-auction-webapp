@@ -45,6 +45,8 @@ public class CarService implements CarServiceI{
             throw new ResourceAlreadyInUseException("This Vin Number", "another car" , car.getVinNumber());
         }
         log.info("Storing the new car with vin number"+ car.getVinNumber()+" to the database");
+        Date date = new Date();
+        car.setAuctionStart(date);
         carRepository.save(car);
     }
 

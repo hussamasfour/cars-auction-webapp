@@ -1,9 +1,7 @@
 package com.hussam.carsAuction.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,18 +9,21 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
-
+    @Column(nullable = false)
     private Long routingNumber;
     @Column( unique = true)
     private Long accountNumber;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @JsonIgnore
     private User user;
 
 }

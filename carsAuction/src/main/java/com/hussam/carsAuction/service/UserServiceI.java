@@ -1,9 +1,11 @@
 package com.hussam.carsAuction.service;
 
+import com.hussam.carsAuction.entity.BankAccount;
 import com.hussam.carsAuction.entity.User;
 import com.hussam.carsAuction.payload.request.LoginRequest;
 import com.hussam.carsAuction.payload.request.SignUpRequest;
 import com.hussam.carsAuction.payload.response.SignInResponse;
+import com.hussam.carsAuction.security.userService.UserDetailsImp;
 
 public interface UserServiceI {
 
@@ -34,4 +36,6 @@ public interface UserServiceI {
          * @return logged in user
          */
         SignInResponse login(LoginRequest loginRequest);
+
+        User addBankInfo(BankAccount bankAccount, UserDetailsImp currentUser);
 }

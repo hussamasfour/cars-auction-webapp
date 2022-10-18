@@ -37,6 +37,9 @@ public class CarRepositoryTest {
         car.setYear(2022);
         car.setFuelType("Gas");
         car.setImagesLink("img.jpg");
+        car.setColor("red");
+        car.setDrive("Front-wheel-Drive");
+        car.setTransmission("Automatic");
         carRepository.save(car);
 
         Assertions.assertTrue(carRepository.existsByVinNumber("12345678"));

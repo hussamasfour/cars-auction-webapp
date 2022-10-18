@@ -22,8 +22,6 @@ public class Bid {
 
     private Double amount;
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
-
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore

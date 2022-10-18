@@ -1,5 +1,6 @@
 package com.hussam.carsAuction.controller;
 
+import com.hussam.carsAuction.payload.request.BidDTO;
 import com.hussam.carsAuction.security.annotation.CurrentUser;
 import com.hussam.carsAuction.security.userService.UserDetailsImp;
 import com.hussam.carsAuction.service.BidServiceI;
@@ -23,8 +24,10 @@ public class BidController {
     }
 
     @PostMapping("/bid")
-    public ResponseEntity<?> addBidToCar(@RequestParam("car_id") Long car_id , @RequestParam("amount") double amount, @CurrentUser UserDetailsImp currentUser)  {
+    public ResponseEntity<?> addBidToCar(@RequestBody BidDTO bidDTO, @CurrentUser UserDetailsImp currentUser)  {
             log.info("Inside the addBidToCar method in BidController!");
+            Long car_id = bidDTO.getCarId();
+            Double amount = bidDTO.getAmount();
             return new ResponseEntity<>(bidService.addBid(car_id,currentUser,amount), HttpStatus.CREATED);
     }
 }

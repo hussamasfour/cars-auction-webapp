@@ -4,10 +4,10 @@ As car prices is going up I decided to build an auction full stack application t
 
 ## Built With:
 
-- [Java][] [Spring Framwork][] for the backend
-- [MariaDB][]for the databse
-- [Hibenrate][] for presesting Data
-- [ReactJS][], [Hooks] for the frontend
+- [Java]() [Spring Framwork]() for the backend
+- [MariaDB]() for the databse
+- [Hibenrate]() for presesting Data
+- [ReactJS](), [Hooks](), [React Context]() for the frontend
 
 ## Database Table Relationship diagram:
 
@@ -15,11 +15,11 @@ As car prices is going up I decided to build an auction full stack application t
 
 ## Version:
 
-- Java : [11]
-- Spring Boot: [2.7.3]
-- MariaDb: [10.8.3]
-- React: [18.2.0]
-- Junit: [5]
+- Java : [11]()
+- Spring Boot: [2.7.3]()
+- MariaDb: [10.8.3]()
+- React: [18.2.0]()
+- Junit: [5]()
 
 ## Requirments:
 

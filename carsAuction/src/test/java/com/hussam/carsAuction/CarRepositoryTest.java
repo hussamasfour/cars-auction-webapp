@@ -31,7 +31,7 @@ public class CarRepositoryTest {
 
         List<Car> carList = carRepository.findAllByAuctionEndGreaterThanEqual(new Date());
 
-        Assertions.assertEquals(6, carList.size());
+        Assertions.assertEquals(5, carList.size());
     }
 
     @Test

@@ -49,14 +49,17 @@ public class BidService implements BidServiceI{
             throw new InvalidBidException("The auction for the selected car is ended!");
         }
         log.info(String.format("Getting the highest bid for the car  with id: %d ", car_id ));
-        Double highestBid = bidRepository.findHighestBid(car_id);
 
-        if(highestBid !=null && amount <= highestBid){
-           log.error(String.format("the bid amount: %f is less than the highest bid: %f", amount, highestBid));
+        Bid highestBid = bidRepository.findBidWithHighest(car_id);
+        if(highestBid !=null && highestBid.getUser().equals(user)){
+            throw new InvalidBidException("Be Patient! You already have the highest bid");
+        }
+        if(highestBid !=null && amount <= highestBid.getAmount()){
+           log.error(String.format("Bid amount: %.2f is less than the highest bid: %.2f", amount, highestBid.getAmount()));
            throw new InvalidBidException("Your bid is not the highest");
        }
 
-        log.info(String.format("creating the bid with amount: %f for car with id: %d", amount,car_id));
+        log.info(String.format("creating the bid with amount: %.2f for car with id: %d", amount,car_id));
         Bid bid = new Bid();
         bid.setAmount(amount);
         bid.setCar(selected_car);

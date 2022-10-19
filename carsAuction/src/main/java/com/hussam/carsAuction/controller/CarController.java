@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+/**
+ * Car Controller class  where all request for car handler
+ */
 @RestController
 @RequestMapping("/api")
 @Slf4j

@@ -82,6 +82,6 @@ public class BidRepositoryTest {
         bidRepository.save(bid2);
 
 
-        Assertions.assertEquals(bid2.getAmount(), bidRepository.findHighestBid(car.getId()));
+        Assertions.assertEquals(bid2.getAmount(), bidRepository.findBidWithHighest(car.getId()).getAmount());
     }
 }

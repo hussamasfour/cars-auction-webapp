@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * class for loading the user data by the giving email
+ */
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
     @Autowired

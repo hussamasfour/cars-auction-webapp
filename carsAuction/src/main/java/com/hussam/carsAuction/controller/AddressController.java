@@ -24,8 +24,14 @@ public class AddressController {
         this.addressService = addressService;
     }
 
+    /**
+     * End point to handle request to add an address for current active user
+     * @param address
+     * @param currentUser
+     * @return
+     */
     @PostMapping("/add-address")
-    public ResponseEntity<?> addUserAddress( @RequestBody Address address, @CurrentUser UserDetailsImp currentUser){
+    public ResponseEntity<?> addUserAddress( @Valid @RequestBody Address address, @CurrentUser UserDetailsImp currentUser){
         log.info("inside addUserAddress in the addressController");
         Address createdAddress = addressService.addAddress(currentUser, address);
         return new ResponseEntity<>(createdAddress, HttpStatus.CREATED);

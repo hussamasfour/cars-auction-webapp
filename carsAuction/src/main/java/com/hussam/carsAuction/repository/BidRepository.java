@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BidRepository extends JpaRepository<Bid,Long> {
-   @Query("select max(b.amount) from bid b inner join b.car c where c.id = :car_id")
-    Double findHighestBid(Long car_id);
+
+   @Query(value = "select * from bid as b , car as c where b.car_id = ? order By b.amount DESC limit 1 ", nativeQuery = true)
+   Bid findBidWithHighest(Long car_Id);
 }

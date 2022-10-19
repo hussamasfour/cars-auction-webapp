@@ -1,7 +1,6 @@
 package com.hussam.carsAuction.security;
 
-//import com.hussam.carsAuction.security.jwt.AuthTokenFilter;
-//import com.hussam.carsAuction.security.jwt.JwtAuthEntry;
+
 import com.hussam.carsAuction.security.jwt.JWTTokenFilter;
 import com.hussam.carsAuction.security.jwt.JWTEntryPoint;
 import com.hussam.carsAuction.security.userService.UserDetailsServiceImp;

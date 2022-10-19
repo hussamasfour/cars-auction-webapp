@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+/**
+ * User controller provide the end point to handle user request
+ */
 @RestController
 @RequestMapping("/api")
 @Slf4j

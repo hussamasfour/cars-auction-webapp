@@ -10,6 +10,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * class to get logged-in user account details
+ */
 public class UserDetailsImp implements UserDetails {
 
     private Long id;

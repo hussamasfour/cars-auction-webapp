@@ -7,6 +7,9 @@ import com.hussam.carsAuction.payload.request.SignUpRequest;
 import com.hussam.carsAuction.payload.response.SignInResponse;
 import com.hussam.carsAuction.security.userService.UserDetailsImp;
 
+/**
+ * an interface to provide service methods for User entity
+ */
 public interface UserServiceI {
 
         /**

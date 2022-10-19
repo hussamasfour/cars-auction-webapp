@@ -5,7 +5,7 @@ import com.hussam.carsAuction.entity.Car;
 import java.util.List;
 
 /**
- * interface for car service method
+ * an interface to provide service methods for car entity
  */
 public interface CarServiceI {
 

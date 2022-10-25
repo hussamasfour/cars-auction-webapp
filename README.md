@@ -1,6 +1,6 @@
 # Cars Auction Website
 
-As car prices is going up I decided to build an auction full stack application to list new cars and be giving the authenticated user to bid for cars. Furthermore, List only the active cars. giving the user the ability to spcifiy their address and bank information. only the admin user can add new cars to the auction. 
+As car prices is going up, I decided to build an auction full stack application to show new cars to users and gibe them the ability to bid for cars. Furthermore, website will list only the active cars. users have the ability to spcifiy their address and bank information. Admin user only can add new cars to the auction. 
 
 ## Demo:
 
